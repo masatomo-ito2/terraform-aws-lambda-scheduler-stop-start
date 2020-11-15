@@ -24,31 +24,20 @@ If you are using Terraform 0.11 you can use versions v1.*.
 
 ```hcl
 module "stop_ec2_instance" {
-  source                         = "diodonfrost/lambda-scheduler-stop-start/aws"
+  source                         = "app.terraform.io/masa_org/lambda-scheduler-stop-start/aws"
+	version = "2.10.0"
+
   name                           = "ec2_stop"
   cloudwatch_schedule_expression = "cron(0 0 ? * FRI *)"
   schedule_action                = "stop"
-  autoscaling_schedule           = "false"
   ec2_schedule                   = "true"
   rds_schedule                   = "false"
-  resources_tag                  = {
-    key   = "tostop"
-    value = "true"
-  }
-}
-
-module "start_ec2_instance" {
-  source                         = "diodonfrost/lambda-scheduler-stop-start/aws"
-  name                           = "ec2_start"
-  cloudwatch_schedule_expression = "cron(0 8 ? * MON *)"
-  schedule_action                = "start"
   autoscaling_schedule           = "false"
-  ec2_schedule                   = "true"
-  rds_schedule                   = "false"
   resources_tag                  = {
-    key   = "tostop"
-    value = "true"
+    key   = "Environment"
+    value = "dev"
   }
+  tags = local.common_tags
 }
 ```
 
